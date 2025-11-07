@@ -1,0 +1,1858 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lypach Investment Ltd - Secure Land &amp; Smart Investments</title>
+  <meta name="description" content="Lypach Investment Ltd helps Kenyans verify and purchase land, lease property, and invest collectively in assets. Secure, verified land deals and smart investment opportunities.">
+  <meta name="keywords" content="land investment Kenya, property verification, real estate Kenya, land purchase, investment club">
+  <meta name="author" content="Lypach Investment Ltd"><!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Lypach Investment Ltd - Secure Land &amp; Smart Investments">
+  <meta property="og:description" content="Helping Kenyans verify and purchase land, lease property, and invest collectively in assets.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lypachinvestment.site"><!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏡</text></svg>"><!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;family=Open+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"><!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script><!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script><!-- Elements SDK -->
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .font-opensans { font-family: 'Open Sans', sans-serif; }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #004D40 0%, #00695C 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 25px rgba(0, 77, 64, 0.1);
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%);
+        }
+        
+        .slide-in {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .nav-active {
+            color: #D4AF37 !important;
+            border-bottom: 2px solid #D4AF37;
+        }
+        
+        .testimonial-card {
+            min-height: 200px;
+        }
+        
+        .land-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #004D40 0%, #00695C 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #00695C 0%, #004D40 100%);
+            transform: translateY(-2px);
+        }
+        
+        .btn-gold {
+            background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%);
+            color: #004D40;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #F4D03F 0%, #D4AF37 100%);
+            transform: translateY(-2px);
+        }
+        
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #004D40;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .investment-progress {
+            background: linear-gradient(90deg, #D4AF37 0%, #F4D03F 100%);
+        }
+    </style>
+  <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#004D40',
+                        accent: '#D4AF37',
+                        secondary: '#00695C'
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'opensans': ['Open Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="font-opensans bg-white"><!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 w-full bg-white shadow-lg z-50 transition-all duration-300">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16"><!-- Logo -->
+     <div class="flex items-center">
+      <div class="text-2xl font-poppins font-bold text-primary">
+       🏡 <span id="company-name">Lypach Investment Ltd</span>
+      </div>
+     </div><!-- Desktop Menu -->
+     <div class="hidden md:block">
+      <div class="ml-10 flex items-baseline space-x-4"><a href="#home" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors">Home</a> <a href="#about" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors">About Us</a> <a href="#lands" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors">Lands</a> <a href="#services" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors">Services</a> <a href="#investments" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors">Investments</a> <a href="#blog" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors">Blog</a> <a href="#contact" class="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors">Contact</a> <button id="auth-btn" class="btn-primary text-white px-4 py-2 rounded-2xl text-sm font-medium">Login</button>
+      </div>
+     </div><!-- Mobile menu button -->
+     <div class="md:hidden"><button id="mobile-menu-btn" class="text-gray-700 hover:text-primary focus:outline-none">
+       <svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+       </svg></button>
+     </div>
+    </div>
+   </div><!-- Mobile Menu -->
+   <div id="mobile-menu" class="mobile-menu md:hidden fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
+    <div class="p-4">
+     <div class="flex justify-between items-center mb-8">
+      <div class="text-xl font-poppins font-bold text-primary">
+       Menu
+      </div><button id="close-mobile-menu" class="text-gray-700">
+       <svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <div class="space-y-4"><a href="#home" class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary">Home</a> <a href="#about" class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary">About Us</a> <a href="#lands" class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary">Lands</a> <a href="#services" class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary">Services</a> <a href="#investments" class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary">Investments</a> <a href="#blog" class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary">Blog</a> <a href="#contact" class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary">Contact</a> <button id="mobile-auth-btn" class="btn-primary text-white px-4 py-2 rounded-2xl text-sm font-medium w-full mt-4">Login</button>
+     </div>
+    </div>
+   </div>
+  </nav><!-- Main Content -->
+  <main id="main-content"><!-- Home Section -->
+   <section id="home" class="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+     <div class="slide-in">
+      <h1 id="hero-title" class="text-4xl md:text-6xl font-poppins font-bold text-white mb-6">Secure, Verified Land and Smart Investments</h1>
+      <p id="hero-subtitle" class="text-xl md:text-2xl text-gray-200 mb-8 font-light">— The Lypach Way —</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center"><button class="btn-gold px-8 py-4 rounded-2xl text-lg font-semibold font-poppins" onclick="navigateToPage('lands')"> Explore Available Lands </button> <button class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-2xl text-lg font-semibold font-poppins hover:bg-white hover:text-primary transition-all" onclick="navigateToPage('investments')"> Join as a Member </button>
+      </div>
+     </div>
+    </div><!-- Floating Elements -->
+    <div class="absolute top-20 left-10 w-20 h-20 bg-accent opacity-20 rounded-full animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-32 h-32 bg-white opacity-10 rounded-full animate-pulse"></div>
+   </section><!-- About Preview Section -->
+   <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="fade-in">
+       <h2 class="text-3xl md:text-4xl font-poppins font-bold text-primary mb-6">About Lypach Investment Ltd</h2>
+       <p class="text-gray-600 text-lg mb-6 leading-relaxed">Founded by Francis Waweru Mukuria, Lypach Investment Ltd is dedicated to helping Kenyans make secure, verified land investments and participate in collective investment opportunities.</p>
+       <div class="bg-white p-6 rounded-2xl card-shadow">
+        <div class="flex items-center mb-4">
+         <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold">
+          FM
+         </div>
+         <div class="ml-4">
+          <h4 class="font-poppins font-semibold text-primary">Francis Waweru Mukuria</h4>
+          <p class="text-gray-600">Founder &amp; CEO</p>
+         </div>
+        </div>
+        <p class="text-gray-700 italic">"Our mission is to democratize land ownership and investment opportunities for every Kenyan, ensuring transparency and security in every transaction."</p>
+       </div>
+      </div>
+      <div class="fade-in">
+       <div class="bg-primary rounded-2xl p-8 text-white">
+        <h3 class="text-2xl font-poppins font-bold mb-6">Why Choose Lypach?</h3>
+        <div class="space-y-4">
+         <div class="flex items-center">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary font-bold">✓</span>
+          </div><span>Verified Land Deals</span>
+         </div>
+         <div class="flex items-center">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary font-bold">✓</span>
+          </div><span>Complete Transparency</span>
+         </div>
+         <div class="flex items-center">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary font-bold">✓</span>
+          </div><span>Community Investment</span>
+         </div>
+         <div class="flex items-center">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary font-bold">✓</span>
+          </div><span>Expert Support</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Featured Lands Section -->
+   <section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-poppins font-bold text-primary mb-4">Featured Land Opportunities</h2>
+      <p class="text-gray-600 text-lg">Discover verified, premium land deals across Kenya</p>
+     </div>
+     <div id="featured-lands" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Land cards will be populated by JavaScript -->
+     </div>
+     <div class="text-center mt-12"><button class="btn-primary text-white px-8 py-4 rounded-2xl text-lg font-semibold" onclick="navigateToPage('lands')"> View All Available Lands </button>
+     </div>
+    </div>
+   </section><!-- Testimonials Section -->
+   <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-poppins font-bold text-primary mb-4">What Our Clients Say</h2>
+      <p class="text-gray-600 text-lg">Real stories from satisfied investors</p>
+     </div>
+     <div id="testimonials-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Testimonials will be populated by JavaScript -->
+     </div>
+    </div>
+   </section><!-- CTA Section -->
+   <section class="py-20 hero-gradient">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+     <h2 class="text-3xl md:text-4xl font-poppins font-bold text-white mb-6">Ready to Start Your Investment Journey?</h2>
+     <p class="text-xl text-gray-200 mb-8">Join the Lypach Investment Club and start building your wealth today</p><button class="btn-gold px-8 py-4 rounded-2xl text-lg font-semibold font-poppins" onclick="navigateToPage('investments')"> Join Investment Club </button>
+    </div>
+   </section><!-- About Us Page -->
+   <section id="about" class="py-20 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-poppins font-bold text-primary mb-6">About Lypach Investment Ltd</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Empowering Kenyans through secure land investments and collective wealth building opportunities</p>
+     </div><!-- Company Story -->
+     <div class="mb-20">
+      <div class="bg-white rounded-2xl card-shadow p-8 md:p-12">
+       <h2 class="text-3xl font-poppins font-bold text-primary mb-6">Our Story</h2>
+       <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div>
+         <p class="text-gray-700 text-lg leading-relaxed mb-6">Lypach Investment Ltd was founded by Francis Waweru Mukuria with a vision to revolutionize land investment in Kenya. Having witnessed countless Kenyans lose money to fraudulent land deals, Francis established Lypach to provide a secure, transparent platform for land verification and investment.</p>
+         <p class="text-gray-700 text-lg leading-relaxed">Our company combines traditional land brokerage with modern investment strategies, offering both individual land purchases and collective investment opportunities through our innovative Investment Club model.</p>
+        </div>
+        <div class="bg-primary rounded-2xl p-8 text-white">
+         <div class="text-center">
+          <div class="w-24 h-24 bg-accent rounded-full flex items-center justify-center text-primary text-3xl font-bold mx-auto mb-4">
+           FM
+          </div>
+          <h3 class="text-xl font-poppins font-bold mb-2">Francis Waweru Mukuria</h3>
+          <p class="text-gray-200 mb-4">Founder &amp; CEO</p>
+          <p class="italic text-sm">"Every Kenyan deserves access to secure land investment opportunities. That's why we built Lypach."</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Mission, Vision, Values -->
+     <div class="grid md:grid-cols-3 gap-8 mb-20">
+      <div class="bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-white text-2xl">🎯</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Our Mission</h3>
+       <p class="text-gray-700">To provide secure, verified land investment opportunities and collective wealth-building platforms for Kenyans, ensuring transparency and trust in every transaction.</p>
+      </div>
+      <div class="bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-primary text-2xl">👁️</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Our Vision</h3>
+       <p class="text-gray-700">To become Kenya's most trusted land investment platform, democratizing access to real estate opportunities for all economic levels.</p>
+      </div>
+      <div class="bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-white text-2xl">⭐</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Our Values</h3>
+       <p class="text-gray-700">Transparency, integrity, community empowerment, and unwavering commitment to our clients' financial success and security.</p>
+      </div>
+     </div><!-- Team Section -->
+     <div class="text-center">
+      <h2 class="text-3xl font-poppins font-bold text-primary mb-12">Our Team</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+       <div class="bg-white rounded-2xl card-shadow p-6 text-center">
+        <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+         FM
+        </div>
+        <h4 class="font-poppins font-semibold text-primary mb-2">Francis Waweru Mukuria</h4>
+        <p class="text-gray-600 text-sm mb-3">Founder &amp; CEO</p>
+        <p class="text-gray-700 text-sm">Land investment expert with 10+ years experience</p>
+       </div>
+       <div class="bg-white rounded-2xl card-shadow p-6 text-center">
+        <div class="w-20 h-20 bg-accent rounded-full flex items-center justify-center text-primary text-2xl font-bold mx-auto mb-4">
+         JM
+        </div>
+        <h4 class="font-poppins font-semibold text-primary mb-2">Jane Mwangi</h4>
+        <p class="text-gray-600 text-sm mb-3">Head of Verification</p>
+        <p class="text-gray-700 text-sm">Legal expert specializing in land title verification</p>
+       </div>
+       <div class="bg-white rounded-2xl card-shadow p-6 text-center">
+        <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+         PK
+        </div>
+        <h4 class="font-poppins font-semibold text-primary mb-2">Peter Kariuki</h4>
+        <p class="text-gray-600 text-sm mb-3">Investment Manager</p>
+        <p class="text-gray-700 text-sm">Portfolio management and investment strategy specialist</p>
+       </div>
+       <div class="bg-white rounded-2xl card-shadow p-6 text-center">
+        <div class="w-20 h-20 bg-accent rounded-full flex items-center justify-center text-primary text-2xl font-bold mx-auto mb-4">
+         SM
+        </div>
+        <h4 class="font-poppins font-semibold text-primary mb-2">Sarah Mutua</h4>
+        <p class="text-gray-600 text-sm mb-3">Client Relations</p>
+        <p class="text-gray-700 text-sm">Customer success and relationship management expert</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Lands Page -->
+   <section id="lands" class="py-20 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-poppins font-bold text-primary mb-6">Available Lands</h1>
+      <p class="text-xl text-gray-600">Verified land opportunities across Kenya</p>
+     </div><!-- Filters -->
+     <div class="mb-12">
+      <div class="flex flex-wrap justify-center gap-4"><button class="filter-btn active bg-primary text-white px-6 py-3 rounded-2xl font-semibold" data-filter="all"> All Properties </button> <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-3 rounded-2xl font-semibold hover:bg-primary hover:text-white transition-all" data-filter="for-sale"> For Sale </button> <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-3 rounded-2xl font-semibold hover:bg-primary hover:text-white transition-all" data-filter="for-lease"> For Lease </button> <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-3 rounded-2xl font-semibold hover:bg-primary hover:text-white transition-all" data-filter="business"> Business Premises </button>
+      </div>
+     </div><!-- Lands Grid -->
+     <div id="lands-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Land cards will be populated by JavaScript -->
+     </div>
+    </div>
+   </section><!-- Services Page -->
+   <section id="services" class="py-20 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-poppins font-bold text-primary mb-6">Our Services</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive land and investment services designed to secure your financial future</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Land Verification -->
+      <div class="service-card bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-white text-2xl">🔍</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Land Verification</h3>
+       <p class="text-gray-700 mb-6">Comprehensive title search and fraud prevention services. We verify ownership, check for encumbrances, and ensure clean title deeds.</p>
+       <ul class="text-left text-gray-600 text-sm space-y-2 mb-6">
+        <li>• Title deed verification</li>
+        <li>• Land registry searches</li>
+        <li>• Fraud detection</li>
+        <li>• Legal compliance check</li>
+       </ul><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="navigateToPage('contact')"> Learn More </button>
+      </div><!-- Land Brokerage -->
+      <div class="service-card bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-primary text-2xl">🤝</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Land Brokerage</h3>
+       <p class="text-gray-700 mb-6">Professional brokerage services connecting verified buyers and sellers. We facilitate secure transactions with full legal support.</p>
+       <ul class="text-left text-gray-600 text-sm space-y-2 mb-6">
+        <li>• Buyer-seller matching</li>
+        <li>• Price negotiation</li>
+        <li>• Transaction facilitation</li>
+        <li>• Legal documentation</li>
+       </ul><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="navigateToPage('contact')"> Learn More </button>
+      </div><!-- Land Sourcing -->
+      <div class="service-card bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-white text-2xl">🎯</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Land Sourcing</h3>
+       <p class="text-gray-700 mb-6">Custom land sourcing for residential, farming, and business purposes. We find properties that match your specific requirements.</p>
+       <ul class="text-left text-gray-600 text-sm space-y-2 mb-6">
+        <li>• Residential plots</li>
+        <li>• Agricultural land</li>
+        <li>• Commercial properties</li>
+        <li>• Investment opportunities</li>
+       </ul><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="navigateToPage('contact')"> Learn More </button>
+      </div><!-- Investment Programs -->
+      <div class="service-card bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-primary text-2xl">💰</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Investment Programs</h3>
+       <p class="text-gray-700 mb-6">Group saving and investment programs for land and matatu investments. Pool resources for bigger opportunities.</p>
+       <ul class="text-left text-gray-600 text-sm space-y-2 mb-6">
+        <li>• Land investment clubs</li>
+        <li>• Matatu investment groups</li>
+        <li>• Collective buying power</li>
+        <li>• Shared ownership models</li>
+       </ul><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="navigateToPage('investments')"> Learn More </button>
+      </div><!-- Consultancy -->
+      <div class="service-card bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-white text-2xl">📋</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Consultancy Services</h3>
+       <p class="text-gray-700 mb-6">Expert advice on land investment strategies, market analysis, and portfolio development for individual and institutional clients.</p>
+       <ul class="text-left text-gray-600 text-sm space-y-2 mb-6">
+        <li>• Investment strategy</li>
+        <li>• Market analysis</li>
+        <li>• Portfolio planning</li>
+        <li>• Risk assessment</li>
+       </ul><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="navigateToPage('contact')"> Learn More </button>
+      </div><!-- Partnerships -->
+      <div class="service-card bg-white rounded-2xl card-shadow p-8 text-center">
+       <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-primary text-2xl">🤝</span>
+       </div>
+       <h3 class="text-xl font-poppins font-bold text-primary mb-4">Strategic Partnerships</h3>
+       <p class="text-gray-700 mb-6">Partnership opportunities with developers, financial institutions, and other stakeholders in the real estate ecosystem.</p>
+       <ul class="text-left text-gray-600 text-sm space-y-2 mb-6">
+        <li>• Developer partnerships</li>
+        <li>• Financial institution ties</li>
+        <li>• Joint ventures</li>
+        <li>• Strategic alliances</li>
+       </ul><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="navigateToPage('contact')"> Learn More </button>
+      </div>
+     </div>
+    </div>
+   </section><!-- Investments Page -->
+   <section id="investments" class="py-20 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-poppins font-bold text-primary mb-6">Investment Opportunities</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Join the Lypach Investment Club and build wealth through collective investment strategies</p>
+     </div><!-- Investment Club Explanation -->
+     <div class="bg-white rounded-2xl card-shadow p-8 md:p-12 mb-16">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+       <div>
+        <h2 class="text-3xl font-poppins font-bold text-primary mb-6">Lypach Investment Club</h2>
+        <p class="text-gray-700 text-lg leading-relaxed mb-6">Our Investment Club model allows members to pool resources and invest collectively in high-value assets like prime land and matatu businesses. This approach provides access to opportunities that might be out of reach for individual investors.</p>
+        <div class="space-y-4">
+         <div class="flex items-center">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary font-bold">✓</span>
+          </div><span class="text-gray-700">Lower individual investment requirements</span>
+         </div>
+         <div class="flex items-center">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary font-bold">✓</span>
+          </div><span class="text-gray-700">Diversified investment portfolio</span>
+         </div>
+         <div class="flex items-center">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary font-bold">✓</span>
+          </div><span class="text-gray-700">Professional management</span>
+         </div>
+         <div class="flex items-center">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary font-bold">✓</span>
+          </div><span class="text-gray-700">Transparent reporting</span>
+         </div>
+        </div>
+       </div>
+       <div class="bg-primary rounded-2xl p-8 text-white">
+        <h3 class="text-2xl font-poppins font-bold mb-6 text-center">How It Works</h3>
+        <div class="space-y-6">
+         <div class="flex items-start">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4 mt-1"><span class="text-primary font-bold text-sm">1</span>
+          </div>
+          <div>
+           <h4 class="font-semibold mb-2">Join the Club</h4>
+           <p class="text-gray-200 text-sm">Register and choose your investment level</p>
+          </div>
+         </div>
+         <div class="flex items-start">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4 mt-1"><span class="text-primary font-bold text-sm">2</span>
+          </div>
+          <div>
+           <h4 class="font-semibold mb-2">Monthly Contributions</h4>
+           <p class="text-gray-200 text-sm">Make regular contributions to build your investment fund</p>
+          </div>
+         </div>
+         <div class="flex items-start">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4 mt-1"><span class="text-primary font-bold text-sm">3</span>
+          </div>
+          <div>
+           <h4 class="font-semibold mb-2">Collective Investment</h4>
+           <p class="text-gray-200 text-sm">Pool funds with other members for bigger opportunities</p>
+          </div>
+         </div>
+         <div class="flex items-start">
+          <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center mr-4 mt-1"><span class="text-primary font-bold text-sm">4</span>
+          </div>
+          <div>
+           <h4 class="font-semibold mb-2">Earn Returns</h4>
+           <p class="text-gray-200 text-sm">Receive your share of profits and asset appreciation</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Current Investment Projects -->
+     <div class="mb-16">
+      <h2 class="text-3xl font-poppins font-bold text-primary mb-8 text-center">Current Investment Projects</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Project 1 -->
+       <div class="bg-white rounded-2xl card-shadow p-6">
+        <div class="bg-primary rounded-xl h-48 mb-6 flex items-center justify-center"><span class="text-white text-4xl">🏘️</span>
+        </div>
+        <h3 class="text-xl font-poppins font-bold text-primary mb-3">Kiambu Residential Development</h3>
+        <p class="text-gray-700 mb-4">50-acre residential development project in Kiambu County with projected 25% ROI over 3 years.</p>
+        <div class="mb-4">
+         <div class="flex justify-between text-sm text-gray-600 mb-2"><span>Progress</span> <span>65%</span>
+         </div>
+         <div class="w-full bg-gray-200 rounded-full h-2">
+          <div class="investment-progress h-2 rounded-full" style="width: 65%"></div>
+         </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 text-sm mb-6">
+         <div><span class="text-gray-600">Target ROI:</span>
+          <div class="font-semibold text-primary">
+           25%
+          </div>
+         </div>
+         <div><span class="text-gray-600">Duration:</span>
+          <div class="font-semibold text-primary">
+           3 Years
+          </div>
+         </div>
+         <div><span class="text-gray-600">Min. Investment:</span>
+          <div class="font-semibold text-primary">
+           KSh 50,000
+          </div>
+         </div>
+         <div><span class="text-gray-600">Members:</span>
+          <div class="font-semibold text-primary">
+           45
+          </div>
+         </div>
+        </div><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="showJoinProjectModal('Kiambu Residential Development')"> Join Project </button>
+       </div><!-- Project 2 -->
+       <div class="bg-white rounded-2xl card-shadow p-6">
+        <div class="bg-accent rounded-xl h-48 mb-6 flex items-center justify-center"><span class="text-primary text-4xl">🚌</span>
+        </div>
+        <h3 class="text-xl font-poppins font-bold text-primary mb-3">Matatu Investment Group</h3>
+        <p class="text-gray-700 mb-4">Collective ownership of matatus on profitable routes with monthly dividend distributions.</p>
+        <div class="mb-4">
+         <div class="flex justify-between text-sm text-gray-600 mb-2"><span>Progress</span> <span>80%</span>
+         </div>
+         <div class="w-full bg-gray-200 rounded-full h-2">
+          <div class="investment-progress h-2 rounded-full" style="width: 80%"></div>
+         </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 text-sm mb-6">
+         <div><span class="text-gray-600">Monthly ROI:</span>
+          <div class="font-semibold text-primary">
+           8-12%
+          </div>
+         </div>
+         <div><span class="text-gray-600">Duration:</span>
+          <div class="font-semibold text-primary">
+           Ongoing
+          </div>
+         </div>
+         <div><span class="text-gray-600">Min. Investment:</span>
+          <div class="font-semibold text-primary">
+           KSh 25,000
+          </div>
+         </div>
+         <div><span class="text-gray-600">Members:</span>
+          <div class="font-semibold text-primary">
+           32
+          </div>
+         </div>
+        </div><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="showJoinProjectModal('Matatu Investment Group')"> Join Project </button>
+       </div><!-- Project 3 -->
+       <div class="bg-white rounded-2xl card-shadow p-6">
+        <div class="bg-primary rounded-xl h-48 mb-6 flex items-center justify-center"><span class="text-white text-4xl">🏢</span>
+        </div>
+        <h3 class="text-xl font-poppins font-bold text-primary mb-3">Commercial Property Fund</h3>
+        <p class="text-gray-700 mb-4">Investment in commercial properties for rental income and capital appreciation.</p>
+        <div class="mb-4">
+         <div class="flex justify-between text-sm text-gray-600 mb-2"><span>Progress</span> <span>40%</span>
+         </div>
+         <div class="w-full bg-gray-200 rounded-full h-2">
+          <div class="investment-progress h-2 rounded-full" style="width: 40%"></div>
+         </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 text-sm mb-6">
+         <div><span class="text-gray-600">Target ROI:</span>
+          <div class="font-semibold text-primary">
+           18%
+          </div>
+         </div>
+         <div><span class="text-gray-600">Duration:</span>
+          <div class="font-semibold text-primary">
+           5 Years
+          </div>
+         </div>
+         <div><span class="text-gray-600">Min. Investment:</span>
+          <div class="font-semibold text-primary">
+           KSh 100,000
+          </div>
+         </div>
+         <div><span class="text-gray-600">Members:</span>
+          <div class="font-semibold text-primary">
+           28
+          </div>
+         </div>
+        </div><button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="showJoinProjectModal('Commercial Property Fund')"> Join Project </button>
+       </div>
+      </div>
+     </div><!-- Member Dashboard Preview -->
+     <div id="member-dashboard" class="bg-gray-50 rounded-2xl p-8 hidden">
+      <h2 class="text-2xl font-poppins font-bold text-primary mb-6">Investment Dashboard</h2>
+      <div class="grid md:grid-cols-3 gap-6 mb-8">
+       <div class="bg-white rounded-xl p-6 text-center">
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Investment</h3>
+        <p class="text-3xl font-bold text-primary">KSh 150,000</p>
+       </div>
+       <div class="bg-white rounded-xl p-6 text-center">
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Current Value</h3>
+        <p class="text-3xl font-bold text-accent">KSh 185,000</p>
+       </div>
+       <div class="bg-white rounded-xl p-6 text-center">
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Returns</h3>
+        <p class="text-3xl font-bold text-green-600">+23.3%</p>
+       </div>
+      </div>
+      <div class="bg-white rounded-xl p-6">
+       <h3 class="text-lg font-semibold text-primary mb-4">Your Investments</h3>
+       <div class="space-y-4">
+        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+         <div>
+          <h4 class="font-semibold">Kiambu Residential Development</h4>
+          <p class="text-sm text-gray-600">KSh 75,000 invested</p>
+         </div>
+         <div class="text-right">
+          <p class="font-semibold text-green-600">+25%</p>
+          <p class="text-sm text-gray-600">KSh 93,750</p>
+         </div>
+        </div>
+        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+         <div>
+          <h4 class="font-semibold">Matatu Investment Group</h4>
+          <p class="text-sm text-gray-600">KSh 75,000 invested</p>
+         </div>
+         <div class="text-right">
+          <p class="font-semibold text-green-600">+22%</p>
+          <p class="text-sm text-gray-600">KSh 91,500</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- CTA for Non-Members -->
+     <div class="text-center">
+      <div class="bg-primary rounded-2xl p-8 text-white">
+       <h2 class="text-2xl font-poppins font-bold mb-4">Ready to Start Investing?</h2>
+       <p class="text-gray-200 mb-6">Join thousands of Kenyans building wealth through collective investment</p><button id="join-investment-club" class="btn-gold px-8 py-4 rounded-2xl text-lg font-semibold font-poppins"> Join Investment Club Today </button>
+      </div>
+     </div>
+    </div>
+   </section><!-- Blog Page -->
+   <section id="blog" class="py-20 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-poppins font-bold text-primary mb-6">Investment Insights</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Expert advice, market insights, and investment tips to help you make informed decisions</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Blog Post 1 -->
+      <article class="bg-white rounded-2xl card-shadow overflow-hidden">
+       <div class="bg-primary h-48 flex items-center justify-center"><span class="text-white text-4xl">📋</span>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center text-sm text-gray-600 mb-3"><span>📅 January 15, 2025</span> <span class="mx-2">•</span> <span>5 min read</span>
+        </div>
+        <h2 class="text-xl font-poppins font-bold text-primary mb-3">Complete Guide to Land Buying in Kenya</h2>
+        <p class="text-gray-700 mb-4">Everything you need to know about purchasing land in Kenya, from title verification to legal requirements and common pitfalls to avoid.</p><button class="text-primary font-semibold hover:text-accent transition-colors" onclick="showBlogPost('Complete Guide to Land Buying in Kenya')"> Read More → </button>
+       </div>
+      </article><!-- Blog Post 2 -->
+      <article class="bg-white rounded-2xl card-shadow overflow-hidden">
+       <div class="bg-accent h-48 flex items-center justify-center"><span class="text-primary text-4xl">⚠️</span>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center text-sm text-gray-600 mb-3"><span>📅 January 10, 2025</span> <span class="mx-2">•</span> <span>7 min read</span>
+        </div>
+        <h2 class="text-xl font-poppins font-bold text-primary mb-3">How to Avoid Land Investment Scams</h2>
+        <p class="text-gray-700 mb-4">Protect yourself from fraudulent land deals. Learn the red flags, verification processes, and due diligence steps every investor should take.</p><button class="text-primary font-semibold hover:text-accent transition-colors" onclick="showBlogPost('How to Avoid Land Investment Scams')"> Read More → </button>
+       </div>
+      </article><!-- Blog Post 3 -->
+      <article class="bg-white rounded-2xl card-shadow overflow-hidden">
+       <div class="bg-primary h-48 flex items-center justify-center"><span class="text-white text-4xl">💰</span>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center text-sm text-gray-600 mb-3"><span>📅 January 5, 2025</span> <span class="mx-2">•</span> <span>6 min read</span>
+        </div>
+        <h2 class="text-xl font-poppins font-bold text-primary mb-3">Investment Opportunities in Kenya 2025</h2>
+        <p class="text-gray-700 mb-4">Discover the most promising investment sectors in Kenya for 2025, including real estate trends, emerging markets, and growth opportunities.</p><button class="text-primary font-semibold hover:text-accent transition-colors" onclick="showBlogPost('Investment Opportunities in Kenya 2025')"> Read More → </button>
+       </div>
+      </article><!-- Blog Post 4 -->
+      <article class="bg-white rounded-2xl card-shadow overflow-hidden">
+       <div class="bg-accent h-48 flex items-center justify-center"><span class="text-primary text-4xl">🏘️</span>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center text-sm text-gray-600 mb-3"><span>📅 December 28, 2024</span> <span class="mx-2">•</span> <span>4 min read</span>
+        </div>
+        <h2 class="text-xl font-poppins font-bold text-primary mb-3">Why Collective Investment Works</h2>
+        <p class="text-gray-700 mb-4">Understanding the power of group investment strategies and how pooling resources can unlock bigger opportunities for individual investors.</p><button class="text-primary font-semibold hover:text-accent transition-colors" onclick="showBlogPost('Why Collective Investment Works')"> Read More → </button>
+       </div>
+      </article><!-- Blog Post 5 -->
+      <article class="bg-white rounded-2xl card-shadow overflow-hidden">
+       <div class="bg-primary h-48 flex items-center justify-center"><span class="text-white text-4xl">🚌</span>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center text-sm text-gray-600 mb-3"><span>📅 December 20, 2024</span> <span class="mx-2">•</span> <span>8 min read</span>
+        </div>
+        <h2 class="text-xl font-poppins font-bold text-primary mb-3">Matatu Investment: A Beginner's Guide</h2>
+        <p class="text-gray-700 mb-4">Learn about matatu investment opportunities, expected returns, risk factors, and how to get started in Kenya's public transport sector.</p><button class="text-primary font-semibold hover:text-accent transition-colors" onclick="showBlogPost('Matatu Investment: A Beginner\'s Guide')"> Read More → </button>
+       </div>
+      </article><!-- Blog Post 6 -->
+      <article class="bg-white rounded-2xl card-shadow overflow-hidden">
+       <div class="bg-accent h-48 flex items-center justify-center"><span class="text-primary text-4xl">📈</span>
+       </div>
+       <div class="p-6">
+        <div class="flex items-center text-sm text-gray-600 mb-3"><span>📅 December 15, 2024</span> <span class="mx-2">•</span> <span>5 min read</span>
+        </div>
+        <h2 class="text-xl font-poppins font-bold text-primary mb-3">Building Wealth Through Real Estate</h2>
+        <p class="text-gray-700 mb-4">Strategic approaches to building long-term wealth through real estate investments, from rental properties to land appreciation.</p><button class="text-primary font-semibold hover:text-accent transition-colors" onclick="showBlogPost('Building Wealth Through Real Estate')"> Read More → </button>
+       </div>
+      </article>
+     </div><!-- Newsletter Signup -->
+     <div class="mt-16 bg-primary rounded-2xl p-8 text-center text-white">
+      <h2 class="text-2xl font-poppins font-bold mb-4">Stay Updated</h2>
+      <p class="text-gray-200 mb-6">Get the latest investment insights and opportunities delivered to your inbox</p>
+      <form id="newsletter-form" class="max-w-md mx-auto flex gap-4"><input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-2xl text-gray-700 focus:outline-none focus:ring-2 focus:ring-accent" required> <button type="submit" class="btn-gold px-6 py-3 rounded-2xl font-semibold"> Subscribe </button>
+      </form>
+     </div>
+    </div>
+   </section><!-- Contact Page -->
+   <section id="contact" class="py-20 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-poppins font-bold text-primary mb-6">Contact Us</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Ready to start your investment journey? Get in touch with our expert team</p>
+     </div>
+     <div class="grid lg:grid-cols-2 gap-12"><!-- Contact Form -->
+      <div class="bg-white rounded-2xl card-shadow p-8">
+       <h2 class="text-2xl font-poppins font-bold text-primary mb-6">Send us a Message</h2>
+       <form id="contact-form" class="space-y-6">
+        <div><label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name</label> <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        </div>
+        <div><label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label> <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        </div>
+        <div><label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label> <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        </div>
+        <div><label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">Subject</label> <select id="subject" name="subject" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"> <option value="">Select a subject</option> <option value="land-inquiry">Land Inquiry</option> <option value="investment-club">Investment Club</option> <option value="verification">Land Verification</option> <option value="consultation">Consultation</option> <option value="other">Other</option> </select>
+        </div>
+        <div><label for="message" class="block text-sm font-semibold text-gray-700 mb-2">Message</label> <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
+        </div><button type="submit" id="submit-btn" class="btn-primary text-white px-8 py-4 rounded-2xl font-semibold w-full flex items-center justify-center"> <span id="submit-text">Send Message</span>
+         <div id="submit-loading" class="loading-spinner ml-2 hidden"></div></button>
+       </form>
+       <div id="form-message" class="mt-4 p-4 rounded-2xl hidden"></div>
+      </div><!-- Contact Information -->
+      <div class="space-y-8"><!-- Company Info -->
+       <div class="bg-white rounded-2xl card-shadow p-8">
+        <h3 class="text-xl font-poppins font-bold text-primary mb-6">Get in Touch</h3>
+        <div class="space-y-4">
+         <div class="flex items-center">
+          <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mr-4"><span class="text-white text-xl">📞</span>
+          </div>
+          <div>
+           <h4 class="font-semibold text-gray-700">Call / WhatsApp</h4>
+           <p id="contact-phone" class="text-primary font-semibold">+254 724 173 850</p>
+          </div>
+         </div>
+         <div class="flex items-center">
+          <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary text-xl">✉️</span>
+          </div>
+          <div>
+           <h4 class="font-semibold text-gray-700">Email</h4>
+           <p id="contact-email" class="text-primary font-semibold">info.lypach@gmail.com</p>
+          </div>
+         </div>
+         <div class="flex items-center">
+          <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mr-4"><span class="text-white text-xl">🌐</span>
+          </div>
+          <div>
+           <h4 class="font-semibold text-gray-700">Website</h4>
+           <p class="text-primary font-semibold">www.lypachinvestment.site</p>
+          </div>
+         </div>
+         <div class="flex items-center">
+          <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center mr-4"><span class="text-primary text-xl">🕒</span>
+          </div>
+          <div>
+           <h4 class="font-semibold text-gray-700">Business Hours</h4>
+           <p class="text-gray-600">Mon–Sat: 8 AM–6 PM</p>
+          </div>
+         </div>
+        </div>
+       </div><!-- Quick Actions -->
+       <div class="bg-primary rounded-2xl p-8 text-white">
+        <h3 class="text-xl font-poppins font-bold mb-6">Quick Actions</h3>
+        <div class="space-y-4"><button class="w-full bg-white text-primary px-6 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition-colors" onclick="window.open('https://wa.me/254724173850', '_blank')"> 📱 WhatsApp Us </button> <button class="w-full bg-accent text-primary px-6 py-3 rounded-2xl font-semibold hover:bg-yellow-400 transition-colors" onclick="window.open('mailto:info.lypach@gmail.com', '_blank')"> 📧 Send Email </button> <button class="w-full border-2 border-white text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white hover:text-primary transition-colors" onclick="showScheduleMeetingModal()"> 📅 Schedule Meeting </button>
+        </div>
+       </div><!-- Map Placeholder -->
+       <div class="bg-white rounded-2xl card-shadow p-8">
+        <h3 class="text-xl font-poppins font-bold text-primary mb-6">Our Location</h3>
+        <div class="bg-gray-200 rounded-2xl h-64 flex items-center justify-center">
+         <div class="text-center text-gray-600"><span class="text-4xl mb-4 block">🗺️</span>
+          <p class="font-semibold">Interactive Map</p>
+          <p class="text-sm">Nairobi, Kenya</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main><!-- Authentication Modal -->
+  <div id="auth-modal" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
+   <div class="bg-white rounded-2xl max-w-md w-full p-8">
+    <div class="flex justify-between items-center mb-6">
+     <h2 id="auth-modal-title" class="text-2xl font-poppins font-bold text-primary">Login</h2><button id="close-auth-modal" class="text-gray-500 hover:text-gray-700">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg></button>
+    </div><!-- Login Form -->
+    <form id="login-form" class="space-y-4">
+     <div><label for="login-email" class="block text-sm font-semibold text-gray-700 mb-2">Email</label> <input type="email" id="login-email" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary">
+     </div>
+     <div><label for="login-password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label> <input type="password" id="login-password" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary">
+     </div><button type="submit" class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full"> Login </button>
+     <p class="text-center text-sm text-gray-600">Don't have an account? <button type="button" id="show-register" class="text-primary font-semibold hover:text-accent">Register</button></p>
+    </form><!-- Register Form -->
+    <form id="register-form" class="space-y-4 hidden">
+     <div><label for="register-name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name</label> <input type="text" id="register-name" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary">
+     </div>
+     <div><label for="register-email" class="block text-sm font-semibold text-gray-700 mb-2">Email</label> <input type="email" id="register-email" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary">
+     </div>
+     <div><label for="register-password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label> <input type="password" id="register-password" required class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary">
+     </div><button type="submit" class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full"> Register </button>
+     <p class="text-center text-sm text-gray-600">Already have an account? <button type="button" id="show-login" class="text-primary font-semibold hover:text-accent">Login</button></p>
+    </form>
+    <div id="auth-message" class="mt-4 p-3 rounded-2xl text-center hidden"></div>
+   </div>
+  </div><!-- Generic Modal -->
+  <div id="generic-modal" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
+   <div class="bg-white rounded-2xl max-w-md w-full p-8">
+    <div class="flex justify-between items-center mb-6">
+     <h2 id="generic-modal-title" class="text-2xl font-poppins font-bold text-primary">Information</h2><button id="close-generic-modal" class="text-gray-500 hover:text-gray-700">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg></button>
+    </div>
+    <div id="generic-modal-content" class="text-gray-700"><!-- Content will be populated by JavaScript -->
+    </div>
+    <div class="mt-6 text-center"><button id="generic-modal-action" class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold"> Contact Us </button>
+    </div>
+   </div>
+  </div><!-- Footer -->
+  <footer class="bg-gray-900 text-white py-16">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-4 gap-8"><!-- Company Info -->
+     <div class="md:col-span-2">
+      <div class="flex items-center mb-6"><span class="text-3xl mr-3">🏡</span> <span class="text-2xl font-poppins font-bold">Lypach Investment Ltd</span>
+      </div>
+      <p class="text-gray-400 mb-6 leading-relaxed">Empowering Kenyans through secure land investments and collective wealth building opportunities. Your trusted partner in real estate and investment success.</p>
+      <div class="flex space-x-4"><button class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-primary hover:bg-yellow-400 transition-colors" onclick="window.open('https://wa.me/254724173850', '_blank')"> 📱 </button> <button class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white hover:bg-secondary transition-colors" onclick="window.open('mailto:info.lypach@gmail.com', '_blank')"> ✉️ </button>
+      </div>
+     </div><!-- Quick Links -->
+     <div>
+      <h3 class="text-lg font-poppins font-semibold mb-6">Quick Links</h3>
+      <ul class="space-y-3">
+       <li><a href="#home" class="text-gray-400 hover:text-white transition-colors" onclick="navigateToPage('home')">Home</a></li>
+       <li><a href="#about" class="text-gray-400 hover:text-white transition-colors" onclick="navigateToPage('about')">About Us</a></li>
+       <li><a href="#lands" class="text-gray-400 hover:text-white transition-colors" onclick="navigateToPage('lands')">Available Lands</a></li>
+       <li><a href="#services" class="text-gray-400 hover:text-white transition-colors" onclick="navigateToPage('services')">Our Services</a></li>
+       <li><a href="#investments" class="text-gray-400 hover:text-white transition-colors" onclick="navigateToPage('investments')">Investment Club</a></li>
+       <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors" onclick="navigateToPage('contact')">Contact Us</a></li>
+      </ul>
+     </div><!-- Contact Info -->
+     <div>
+      <h3 class="text-lg font-poppins font-semibold mb-6">Contact Info</h3>
+      <div class="space-y-3 text-gray-400">
+       <p>📞 +254 724 173 850</p>
+       <p>✉️ info.lypach@gmail.com</p>
+       <p>🌐 www.lypachinvestment.site</p>
+       <p>🕒 Mon–Sat: 8 AM–6 PM</p>
+      </div>
+     </div>
+    </div>
+    <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+     <p class="text-gray-400">© 2025 Lypach Investment Ltd. All rights reserved.</p>
+     <p class="text-gray-500 text-sm mt-2">Developed by Lypach Investment Ltd</p>
+    </div>
+   </div>
+  </footer>
+  <script>
+        // Configuration object for editable content
+        const defaultConfig = {
+            company_name: "Lypach Investment Ltd",
+            hero_title: "Secure, Verified Land and Smart Investments",
+            hero_subtitle: "— The Lypach Way —",
+            contact_phone: "+254 724 173 850",
+            contact_email: "info.lypach@gmail.com"
+        };
+
+        // Firebase Configuration (Replace with your actual config)
+        const firebaseConfig = {
+            apiKey: "your-api-key-here",
+            authDomain: "your-project.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "your-app-id"
+        };
+
+        // Initialize Firebase (only if config is provided)
+        let auth, db, storage, messaging;
+        if (firebaseConfig.apiKey !== "your-api-key-here") {
+            firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            db = firebase.firestore();
+            storage = firebase.storage();
+            messaging = firebase.messaging();
+        }
+
+        // Sample Data
+        const landsData = [
+            {
+                id: 1,
+                title: "Prime Residential Plot - Kiambu",
+                location: "Kiambu County",
+                price: "KSh 2,500,000",
+                size: "50x100 ft",
+                status: "for-sale",
+                verified: true,
+                image: "🏘️",
+                description: "Prime residential plot in a gated community with ready title deed"
+            },
+            {
+                id: 2,
+                title: "Commercial Land - Thika Road",
+                location: "Thika Road",
+                price: "KSh 8,000,000",
+                size: "1 Acre",
+                status: "for-sale",
+                verified: true,
+                image: "🏢",
+                description: "Strategic commercial land along busy Thika Road"
+            },
+            {
+                id: 3,
+                title: "Agricultural Land - Nakuru",
+                location: "Nakuru County",
+                price: "KSh 500,000/acre",
+                size: "10 Acres",
+                status: "for-lease",
+                verified: true,
+                image: "🌾",
+                description: "Fertile agricultural land suitable for farming"
+            },
+            {
+                id: 4,
+                title: "Business Premises - CBD",
+                location: "Nairobi CBD",
+                price: "KSh 150,000/month",
+                size: "2000 sq ft",
+                status: "business",
+                verified: true,
+                image: "🏪",
+                description: "Modern business premises in the heart of Nairobi"
+            },
+            {
+                id: 5,
+                title: "Residential Plot - Karen",
+                location: "Karen",
+                price: "KSh 12,000,000",
+                size: "1/2 Acre",
+                status: "for-sale",
+                verified: true,
+                image: "🏡",
+                description: "Exclusive residential plot in upmarket Karen area"
+            },
+            {
+                id: 6,
+                title: "Industrial Land - Athi River",
+                location: "Athi River",
+                price: "KSh 3,000,000",
+                size: "2 Acres",
+                status: "for-sale",
+                verified: true,
+                image: "🏭",
+                description: "Industrial land perfect for manufacturing setup"
+            }
+        ];
+
+        const testimonialsData = [
+            {
+                id: 1,
+                name: "Mary Wanjiku",
+                role: "Land Investor",
+                content: "Lypach helped me verify and purchase my dream plot in Kiambu. Their transparency and professionalism gave me confidence throughout the process.",
+                rating: 5
+            },
+            {
+                id: 2,
+                name: "John Mwangi",
+                role: "Investment Club Member",
+                content: "Through the Lypach Investment Club, I've been able to invest in properties I couldn't afford alone. The returns have been excellent!",
+                rating: 5
+            },
+            {
+                id: 3,
+                name: "Grace Akinyi",
+                role: "Business Owner",
+                content: "The land verification service saved me from a fraudulent deal. Lypach's thorough checks revealed issues that could have cost me millions.",
+                rating: 5
+            },
+            {
+                id: 4,
+                name: "Peter Kamau",
+                role: "Matatu Investor",
+                content: "The matatu investment program has provided steady monthly returns. Francis and his team are trustworthy and professional.",
+                rating: 5
+            },
+            {
+                id: 5,
+                name: "Sarah Njeri",
+                role: "First-time Buyer",
+                content: "As a first-time land buyer, Lypach guided me through every step. Their expertise made what seemed complicated very simple.",
+                rating: 5
+            },
+            {
+                id: 6,
+                name: "David Ochieng",
+                role: "Property Developer",
+                content: "Lypach's land sourcing service helped me find the perfect plots for my development project. Highly recommended!",
+                rating: 5
+            }
+        ];
+
+        // Global state
+        let currentUser = null;
+        let currentPage = 'home';
+
+        // DOM Elements
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const authBtn = document.getElementById('auth-btn');
+        const mobileAuthBtn = document.getElementById('mobile-auth-btn');
+        const authModal = document.getElementById('auth-modal');
+        const closeAuthModal = document.getElementById('close-auth-modal');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const showRegister = document.getElementById('show-register');
+        const showLogin = document.getElementById('show-login');
+        const contactForm = document.getElementById('contact-form');
+        const newsletterForm = document.getElementById('newsletter-form');
+        const genericModal = document.getElementById('generic-modal');
+        const closeGenericModal = document.getElementById('close-generic-modal');
+
+        // Initialize the application
+        function initApp() {
+            setupNavigation();
+            setupMobileMenu();
+            setupAuthentication();
+            setupContactForm();
+            setupNewsletterForm();
+            setupGenericModal();
+            renderFeaturedLands();
+            renderTestimonials();
+            renderLandsPage();
+            setupLandFilters();
+            registerServiceWorker();
+            
+            // Initialize Elements SDK if available
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig,
+                    onConfigChange: updateUIFromConfig,
+                    mapToCapabilities: () => ({
+                        recolorables: [],
+                        borderables: [],
+                        fontEditable: undefined,
+                        fontSizeable: undefined
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
+                        ["company_name", config.company_name || defaultConfig.company_name],
+                        ["hero_title", config.hero_title || defaultConfig.hero_title],
+                        ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+                        ["contact_phone", config.contact_phone || defaultConfig.contact_phone],
+                        ["contact_email", config.contact_email || defaultConfig.contact_email]
+                    ])
+                });
+            }
+        }
+
+        // Update UI based on config changes
+        async function updateUIFromConfig(config) {
+            const companyName = config.company_name || defaultConfig.company_name;
+            const heroTitle = config.hero_title || defaultConfig.hero_title;
+            const heroSubtitle = config.hero_subtitle || defaultConfig.hero_subtitle;
+            const contactPhone = config.contact_phone || defaultConfig.contact_phone;
+            const contactEmail = config.contact_email || defaultConfig.contact_email;
+
+            // Update company name
+            const companyNameEl = document.getElementById('company-name');
+            if (companyNameEl) companyNameEl.textContent = companyName;
+
+            // Update hero section
+            const heroTitleEl = document.getElementById('hero-title');
+            if (heroTitleEl) heroTitleEl.textContent = heroTitle;
+
+            const heroSubtitleEl = document.getElementById('hero-subtitle');
+            if (heroSubtitleEl) heroSubtitleEl.textContent = heroSubtitle;
+
+            // Update contact information
+            const contactPhoneEl = document.getElementById('contact-phone');
+            if (contactPhoneEl) contactPhoneEl.textContent = contactPhone;
+
+            const contactEmailEl = document.getElementById('contact-email');
+            if (contactEmailEl) contactEmailEl.textContent = contactEmail;
+        }
+
+        // Navigation setup
+        function setupNavigation() {
+            // Handle navigation clicks
+            document.addEventListener('click', (e) => {
+                if (e.target.matches('a[href^="#"]') || e.target.matches('.nav-link') || e.target.matches('.mobile-nav-link')) {
+                    e.preventDefault();
+                    const href = e.target.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const page = href.substring(1);
+                        navigateToPage(page);
+                    }
+                }
+            });
+
+            // Handle scroll for navbar
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('bg-white', 'shadow-lg');
+                } else {
+                    navbar.classList.remove('bg-white', 'shadow-lg');
+                }
+            });
+        }
+
+        // Navigate to different pages
+        function navigateToPage(page) {
+            // Hide all sections
+            const sections = document.querySelectorAll('main > section');
+            sections.forEach(section => section.classList.add('hidden'));
+
+            // Show target section
+            const targetSection = document.getElementById(page);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                currentPage = page;
+                
+                // Update active nav link
+                updateActiveNavLink(page);
+                
+                // Close mobile menu if open
+                mobileMenu.classList.remove('active');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Update active navigation link
+        function updateActiveNavLink(page) {
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+                link.classList.remove('nav-active');
+            });
+
+            // Add active class to current page link
+            document.querySelectorAll(`a[href="#${page}"]`).forEach(link => {
+                link.classList.add('nav-active');
+            });
+        }
+
+        // Mobile menu setup
+        function setupMobileMenu() {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        }
+
+        // Authentication setup
+        function setupAuthentication() {
+            authBtn.addEventListener('click', () => {
+                if (currentUser) {
+                    logout();
+                } else {
+                    showAuthModal('login');
+                }
+            });
+
+            mobileAuthBtn.addEventListener('click', () => {
+                if (currentUser) {
+                    logout();
+                } else {
+                    showAuthModal('login');
+                }
+            });
+
+            closeAuthModal.addEventListener('click', () => {
+                hideAuthModal();
+            });
+
+            showRegister.addEventListener('click', () => {
+                showAuthModal('register');
+            });
+
+            showLogin.addEventListener('click', () => {
+                showAuthModal('login');
+            });
+
+            loginForm.addEventListener('submit', handleLogin);
+            registerForm.addEventListener('submit', handleRegister);
+
+            // Check authentication state
+            if (auth) {
+                auth.onAuthStateChanged((user) => {
+                    currentUser = user;
+                    updateAuthUI();
+                });
+            }
+        }
+
+        // Show authentication modal
+        function showAuthModal(mode) {
+            const modalTitle = document.getElementById('auth-modal-title');
+            
+            if (mode === 'register') {
+                modalTitle.textContent = 'Register';
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+            } else {
+                modalTitle.textContent = 'Login';
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+            }
+            
+            authModal.classList.remove('hidden');
+        }
+
+        // Hide authentication modal
+        function hideAuthModal() {
+            authModal.classList.add('hidden');
+            clearAuthMessage();
+        }
+
+        // Handle login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!auth) {
+                showToastMessage('Firebase not configured. Please add your Firebase config.', 'error');
+                return;
+            }
+
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                hideAuthModal();
+                showToastMessage('Login successful!', 'success');
+            } catch (error) {
+                showAuthMessage(error.message, 'error');
+            }
+        }
+
+        // Handle registration
+        async function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            if (!auth) {
+                showToastMessage('Firebase not configured. Please add your Firebase config.', 'error');
+                return;
+            }
+
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                await userCredential.user.updateProfile({ displayName: name });
+                
+                // Create user document in Firestore
+                if (db) {
+                    await db.collection('users').doc(userCredential.user.uid).set({
+                        name: name,
+                        email: email,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        investments: [],
+                        totalInvestment: 0
+                    });
+                }
+                
+                hideAuthModal();
+                showToastMessage('Registration successful!', 'success');
+            } catch (error) {
+                showAuthMessage(error.message, 'error');
+            }
+        }
+
+        // Logout
+        async function logout() {
+            if (auth) {
+                try {
+                    await auth.signOut();
+                    showToastMessage('Logged out successfully!', 'success');
+                } catch (error) {
+                    showToastMessage(error.message, 'error');
+                }
+            }
+        }
+
+        // Update authentication UI
+        function updateAuthUI() {
+            if (currentUser) {
+                authBtn.textContent = 'Logout';
+                mobileAuthBtn.textContent = 'Logout';
+                
+                // Show member dashboard if on investments page
+                if (currentPage === 'investments') {
+                    const memberDashboard = document.getElementById('member-dashboard');
+                    if (memberDashboard) {
+                        memberDashboard.classList.remove('hidden');
+                    }
+                }
+            } else {
+                authBtn.textContent = 'Login';
+                mobileAuthBtn.textContent = 'Login';
+                
+                // Hide member dashboard
+                const memberDashboard = document.getElementById('member-dashboard');
+                if (memberDashboard) {
+                    memberDashboard.classList.add('hidden');
+                }
+            }
+        }
+
+        // Show authentication message
+        function showAuthMessage(message, type) {
+            const messageEl = document.getElementById('auth-message');
+            messageEl.textContent = message;
+            messageEl.className = `mt-4 p-3 rounded-2xl text-center ${type === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
+            messageEl.classList.remove('hidden');
+            
+            setTimeout(() => {
+                clearAuthMessage();
+            }, 5000);
+        }
+
+        // Clear authentication message
+        function clearAuthMessage() {
+            const messageEl = document.getElementById('auth-message');
+            messageEl.classList.add('hidden');
+        }
+
+        // Show toast message
+        function showToastMessage(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-20 right-4 z-50 p-4 rounded-2xl text-white font-semibold ${type === 'error' ? 'bg-red-500' : 'bg-green-500'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // Contact form setup
+        function setupContactForm() {
+            contactForm.addEventListener('submit', handleContactForm);
+        }
+
+        // Handle contact form submission
+        async function handleContactForm(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const submitText = document.getElementById('submit-text');
+            const submitLoading = document.getElementById('submit-loading');
+            const formMessage = document.getElementById('form-message');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitText.textContent = 'Sending...';
+            submitLoading.classList.remove('hidden');
+            
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                // Simulate form submission (replace with actual EmailJS or backend integration)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Show success message
+                formMessage.textContent = 'Thank you for your message! We\'ll get back to you soon.';
+                formMessage.className = 'mt-4 p-4 rounded-2xl bg-green-100 text-green-700';
+                formMessage.classList.remove('hidden');
+                
+                // Reset form
+                contactForm.reset();
+                
+            } catch (error) {
+                // Show error message
+                formMessage.textContent = 'Sorry, there was an error sending your message. Please try again.';
+                formMessage.className = 'mt-4 p-4 rounded-2xl bg-red-100 text-red-700';
+                formMessage.classList.remove('hidden');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitText.textContent = 'Send Message';
+                submitLoading.classList.add('hidden');
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // Newsletter form setup
+        function setupNewsletterForm() {
+            newsletterForm.addEventListener('submit', handleNewsletterForm);
+        }
+
+        // Handle newsletter form submission
+        async function handleNewsletterForm(e) {
+            e.preventDefault();
+            
+            const email = e.target.querySelector('input[type="email"]').value;
+            
+            try {
+                // Simulate newsletter subscription
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                showToastMessage('Successfully subscribed to newsletter!', 'success');
+                newsletterForm.reset();
+                
+            } catch (error) {
+                showToastMessage('Error subscribing to newsletter. Please try again.', 'error');
+            }
+        }
+
+        // Generic modal setup
+        function setupGenericModal() {
+            closeGenericModal.addEventListener('click', () => {
+                genericModal.classList.add('hidden');
+            });
+
+            document.getElementById('generic-modal-action').addEventListener('click', () => {
+                genericModal.classList.add('hidden');
+                navigateToPage('contact');
+            });
+        }
+
+        // Show generic modal
+        function showGenericModal(title, content) {
+            document.getElementById('generic-modal-title').textContent = title;
+            document.getElementById('generic-modal-content').innerHTML = content;
+            genericModal.classList.remove('hidden');
+        }
+
+        // Show join project modal
+        function showJoinProjectModal(projectName) {
+            const content = `
+                <p class="mb-4">Thank you for your interest in joining the <strong>${projectName}</strong> project!</p>
+                <p class="mb-4">To proceed with your investment, please contact our team for detailed information about:</p>
+                <ul class="list-disc list-inside space-y-2 mb-4 text-left">
+                    <li>Investment requirements and minimum contribution</li>
+                    <li>Expected returns and timeline</li>
+                    <li>Legal documentation and agreements</li>
+                    <li>Payment methods and schedules</li>
+                </ul>
+                <p>Our investment specialists will guide you through the entire process.</p>
+            `;
+            showGenericModal(`Join ${projectName}`, content);
+        }
+
+        // Show blog post modal
+        function showBlogPost(title) {
+            const content = `
+                <p class="mb-4">Thank you for your interest in reading "<strong>${title}</strong>"!</p>
+                <p class="mb-4">This article contains valuable insights about:</p>
+                <ul class="list-disc list-inside space-y-2 mb-4 text-left">
+                    <li>Expert analysis and market trends</li>
+                    <li>Practical tips and strategies</li>
+                    <li>Real-world case studies</li>
+                    <li>Actionable investment advice</li>
+                </ul>
+                <p>Contact us to access our full library of investment resources and get personalized advice from our experts.</p>
+            `;
+            showGenericModal('Investment Insights', content);
+        }
+
+        // Show schedule meeting modal
+        function showScheduleMeetingModal() {
+            const content = `
+                <p class="mb-4">We'd love to meet with you to discuss your investment goals!</p>
+                <p class="mb-4">During our meeting, we'll cover:</p>
+                <ul class="list-disc list-inside space-y-2 mb-4 text-left">
+                    <li>Your investment objectives and timeline</li>
+                    <li>Available land and investment opportunities</li>
+                    <li>Our verification and due diligence process</li>
+                    <li>Investment club membership benefits</li>
+                </ul>
+                <p>Contact us to schedule a convenient time for your consultation.</p>
+            `;
+            showGenericModal('Schedule a Meeting', content);
+        }
+
+        // Render featured lands
+        function renderFeaturedLands() {
+            const container = document.getElementById('featured-lands');
+            const featuredLands = landsData.slice(0, 3);
+            
+            container.innerHTML = featuredLands.map(land => createLandCard(land)).join('');
+        }
+
+        // Render testimonials
+        function renderTestimonials() {
+            const container = document.getElementById('testimonials-container');
+            
+            container.innerHTML = testimonialsData.map(testimonial => `
+                <div class="testimonial-card bg-white rounded-2xl card-shadow p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            ${testimonial.name.charAt(0)}
+                        </div>
+                        <div>
+                            <h4 class="font-poppins font-semibold text-primary">${testimonial.name}</h4>
+                            <p class="text-gray-600 text-sm">${testimonial.role}</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-4">
+                        ${Array(testimonial.rating).fill('⭐').join('')}
+                    </div>
+                    <p class="text-gray-700 italic">"${testimonial.content}"</p>
+                </div>
+            `).join('');
+        }
+
+        // Render lands page
+        function renderLandsPage() {
+            const container = document.getElementById('lands-grid');
+            container.innerHTML = landsData.map(land => createLandCard(land)).join('');
+        }
+
+        // Create land card HTML
+        function createLandCard(land) {
+            return `
+                <div class="land-card bg-white rounded-2xl card-shadow overflow-hidden" data-category="${land.status}">
+                    <div class="bg-primary h-48 flex items-center justify-center relative">
+                        <span class="text-white text-4xl">${land.image}</span>
+                        ${land.verified ? '<div class="absolute top-4 right-4 bg-accent text-primary px-3 py-1 rounded-full text-xs font-bold">✓ VERIFIED</div>' : ''}
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-poppins font-bold text-primary mb-2">${land.title}</h3>
+                        <p class="text-gray-600 mb-3">📍 ${land.location}</p>
+                        <p class="text-gray-700 text-sm mb-4">${land.description}</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-2xl font-bold text-primary">${land.price}</span>
+                                <p class="text-gray-600 text-sm">${land.size}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(land.status)}">
+                                    ${getStatusText(land.status)}
+                                </span>
+                            </div>
+                        </div>
+                        <button class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold w-full" onclick="showLandInquiry('${land.title}')">
+                            Contact to View
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show land inquiry modal
+        function showLandInquiry(landTitle) {
+            const content = `
+                <p class="mb-4">Thank you for your interest in <strong>${landTitle}</strong>!</p>
+                <p class="mb-4">To schedule a viewing and get detailed information, our team will provide:</p>
+                <ul class="list-disc list-inside space-y-2 mb-4 text-left">
+                    <li>Complete title verification report</li>
+                    <li>Site visit arrangements</li>
+                    <li>Legal documentation review</li>
+                    <li>Financing options and payment plans</li>
+                </ul>
+                <p>Contact us now to begin the verification process and secure this opportunity.</p>
+            `;
+            showGenericModal('Land Inquiry', content);
+        }
+
+        // Get status color classes
+        function getStatusColor(status) {
+            switch (status) {
+                case 'for-sale': return 'bg-green-100 text-green-800';
+                case 'for-lease': return 'bg-blue-100 text-blue-800';
+                case 'business': return 'bg-purple-100 text-purple-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            switch (status) {
+                case 'for-sale': return 'FOR SALE';
+                case 'for-lease': return 'FOR LEASE';
+                case 'business': return 'BUSINESS';
+                default: return 'AVAILABLE';
+            }
+        }
+
+        // Setup land filters
+        function setupLandFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.dataset.filter;
+                    
+                    // Update active filter button
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    btn.classList.add('active', 'bg-primary', 'text-white');
+                    btn.classList.remove('bg-gray-200', 'text-gray-700');
+                    
+                    // Filter lands
+                    filterLands(filter);
+                });
+            });
+        }
+
+        // Filter lands
+        function filterLands(filter) {
+            const landCards = document.querySelectorAll('.land-card');
+            
+            landCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.style.display = 'block';
+                    card.classList.add('fade-in');
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Register Service Worker for PWA
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                const swContent = `
+                    const CACHE_NAME = 'lypach-investment-v1';
+                    const urlsToCache = [
+                        '/',
+                        '/manifest.json',
+                        'https://cdn.tailwindcss.com',
+                        'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap'
+                    ];
+
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                        );
+                    });
+
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => {
+                                    if (response) {
+                                        return response;
+                                    }
+                                    return fetch(event.request);
+                                })
+                        );
+                    });
+
+                    self.addEventListener('push', (event) => {
+                        const options = {
+                            body: event.data ? event.data.text() : 'New investment opportunity available!',
+                            icon: '/icon-192x192.png',
+                            badge: '/icon-72x72.png',
+                            vibrate: [100, 50, 100],
+                            data: {
+                                dateOfArrival: Date.now(),
+                                primaryKey: 1
+                            },
+                            actions: [
+                                {
+                                    action: 'explore',
+                                    title: 'Explore',
+                                    icon: '/icon-192x192.png'
+                                },
+                                {
+                                    action: 'close',
+                                    title: 'Close',
+                                    icon: '/icon-192x192.png'
+                                }
+                            ]
+                        };
+
+                        event.waitUntil(
+                            self.registration.showNotification('Lypach Investment', options)
+                        );
+                    });
+                `;
+
+                const swBlob = new Blob([swContent], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(swBlob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => {
+                        console.log('Service Worker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            }
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button
+            const installBanner = document.createElement('div');
+            installBanner.innerHTML = `
+                <div class="fixed bottom-4 right-4 bg-primary text-white p-4 rounded-2xl shadow-lg z-50">
+                    <p class="mb-2">Install Lypach Investment App</p>
+                    <button id="install-btn" class="btn-gold px-4 py-2 rounded-xl text-sm font-semibold">
+                        Install
+                    </button>
+                    <button id="dismiss-install" class="ml-2 text-gray-300 hover:text-white">
+                        ✕
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(installBanner);
+            
+            document.getElementById('install-btn').addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    installBanner.remove();
+                });
+            });
+            
+            document.getElementById('dismiss-install').addEventListener('click', () => {
+                installBanner.remove();
+            });
+        });
+
+        // Create PWA manifest
+        function createManifest() {
+            const manifest = {
+                name: "Lypach Investment Ltd",
+                short_name: "Lypach",
+                description: "Secure land investments and smart investment opportunities in Kenya",
+                start_url: "/",
+                display: "standalone",
+                background_color: "#004D40",
+                theme_color: "#004D40",
+                orientation: "portrait-primary",
+                icons: [
+                    {
+                        src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%23004D40'/><text x='96' y='120' font-size='100' text-anchor='middle' fill='white'>🏡</text></svg>",
+                        sizes: "192x192",
+                        type: "image/svg+xml"
+                    },
+                    {
+                        src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%23004D40'/><text x='256' y='320' font-size='280' text-anchor='middle' fill='white'>🏡</text></svg>",
+                        sizes: "512x512",
+                        type: "image/svg+xml"
+                    }
+                ],
+                categories: ["finance", "business", "productivity"]
+            };
+
+            const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+            const manifestUrl = URL.createObjectURL(manifestBlob);
+            const manifestLink = document.createElement('link');
+            manifestLink.rel = 'manifest';
+            manifestLink.href = manifestUrl;
+            document.head.appendChild(manifestLink);
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+            createManifest();
+        });
+
+        // Handle investment club join button
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'join-investment-club') {
+                if (currentUser) {
+                    showToastMessage('Welcome to the Investment Club! Check your dashboard for opportunities.', 'success');
+                } else {
+                    showAuthModal('register');
+                }
+            }
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99af6726b03f73b0',t:'MTc2MjU0NTQ4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
